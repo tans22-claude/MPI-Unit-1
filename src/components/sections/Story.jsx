@@ -42,7 +42,7 @@ export default function Story() {
     <section
       id="story"
       ref={root}
-      className="relative z-10 w-full py-32 sm:py-40"
+      className="relative z-10 w-full py-32 sm:py-40 bg-white"
     >
       <div
         ref={root}

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { MeshGradient } from "@paper-design/shaders-react"
 import { ArrowRight, Sparkles } from "lucide-react"
 
 const letterAnimation = {
@@ -19,20 +20,60 @@ const containerAnimation = {
 
 export const ShaderHero = () => {
   const title = "MANAJEMEN PENDIDIKAN ISLAM"
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isActive, setIsActive] = useState(false)
+
+  useEffect(() => {
+    const handleMouseEnter = () => setIsActive(true)
+    const handleMouseLeave = () => setIsActive(false)
+
+    const container = containerRef.current
+    if (container) {
+      container.addEventListener("mouseenter", handleMouseEnter)
+      container.addEventListener("mouseleave", handleMouseLeave)
+    }
+    return () => {
+      if (container) {
+        container.removeEventListener("mouseenter", handleMouseEnter)
+        container.removeEventListener("mouseleave", handleMouseLeave)
+      }
+    }
+  }, [])
 
   return (
-    <div className="min-h-screen relative overflow-hidden w-full bg-black">
-      {/* Animated gradient blobs */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-[#E07A5F]/20 blur-[150px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-[#3D405B]/30 blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/5 blur-[100px]" />
-      </div>
+    <div
+      ref={containerRef}
+      className="min-h-screen bg-black relative overflow-hidden w-full"
+    >
+      <svg className="absolute inset-0 w-0 h-0">
+        <defs>
+          <filter id="glass-effect" x="-50%" y="-50%" width="200%" height="200%">
+            <feTurbulence baseFrequency="0.004" numOctaves="1" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.25" />
+            <feColorMatrix
+              type="matrix"
+              values="1 0 0 0 0  
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      0 0 0 0.9 0"
+              result="tint"
+            />
+          </filter>
+        </defs>
+      </svg>
 
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:64px_64px] opacity-30"
-        aria-hidden="true"
+      <MeshGradient
+        className="absolute inset-0 w-full h-full"
+        colors={["#000000", "#1a1a1a", "#2e2e2e", "#ffffff"]}
+        speed={0.25}
+        backgroundColor="#000000"
+      />
+      <MeshGradient
+        className="absolute inset-0 w-full h-full opacity-40"
+        colors={["#000000", "#ffffff", "#2e2e2e"]}
+        speed={0.15}
+        wireframe="true"
+        backgroundColor="transparent"
       />
 
       <div className="relative z-10 flex flex-col items-center justify-center text-center min-h-screen px-4">

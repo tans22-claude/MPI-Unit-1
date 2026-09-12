@@ -46,7 +46,7 @@ export default function Suka() {
   return (
     <section
       id="suka-duka"
-      className="relative z-10 w-full py-32 sm:py-40"
+      className="relative z-10 w-full py-32 sm:py-40 bg-white"
     >
       <div
         ref={root}

@@ -43,7 +43,7 @@ export default function Members() {
     <section
       id="members"
       ref={root}
-      className="relative z-10 w-full py-32 sm:py-40"
+      className="relative z-10 w-full py-32 sm:py-40 bg-white"
     >
 
 
