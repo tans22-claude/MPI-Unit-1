@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
@@ -16,24 +16,32 @@ import Members from './components/sections/Members';
 import ClosingMemory from './components/sections/ClosingMemory';
 
 import ImageSequenceBackground from './components/motion/ImageSequenceBackground';
+import Preloader from './components/ui/Preloader';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
-  // Lenis Smooth Scroll - Perlambat scrolling
+  const [loading, setLoading] = useState(true);
+
+  const handleLoaded = useCallback(() => {
+    setLoading(false);
+  }, []);
+
+  // Lenis Smooth Scroll
   useEffect(() => {
+    if (loading) return;
+
     const lenis = new Lenis({
-      duration: 1.8,        // Durasi scroll (lebih tinggi = lebih lambat)
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing smooth
+      duration: 1.8,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.6, // Perlambat wheel scroll
+      wheelMultiplier: 0.6,
       touchMultiplier: 1.5,
       infinite: false,
     });
 
-    // Sync Lenis dengan GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
     gsap.ticker.add((time) => {
@@ -42,7 +50,6 @@ export default function App() {
 
     gsap.ticker.lagSmoothing(0);
 
-    // Refresh ScrollTrigger once everything mounts
     const onLoad = () => ScrollTrigger.refresh();
     window.addEventListener('load', onLoad);
     const t = setTimeout(() => ScrollTrigger.refresh(), 100);
@@ -52,11 +59,14 @@ export default function App() {
       window.removeEventListener('load', onLoad);
       clearTimeout(t);
     };
-  }, []);
+  }, [loading]);
 
   return (
     <>
-      {/* Image sequence background — scroll-driven animation */}
+      {/* Preloader */}
+      {loading && <Preloader onComplete={handleLoaded} />}
+
+      {/* Image sequence background */}
       <ImageSequenceBackground />
 
       {/* Top nav */}

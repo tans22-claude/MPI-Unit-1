@@ -1,5 +1,5 @@
-﻿import ComingSoonBlock from '../ui/coming-soon-4';
+﻿import { ShaderHero } from '../ui/shader-hero';
 
 export default function Hero() {
-  return <ComingSoonBlock />;
+  return <ShaderHero />;
 }
