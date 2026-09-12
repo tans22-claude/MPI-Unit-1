@@ -95,7 +95,7 @@ export default function ImageSequenceBackground() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d', { alpha: false });
+    const ctx = canvas.getContext('2d');
     let lastFrameIndex = -1;
     let cachedW = 0;
     let cachedH = 0;
