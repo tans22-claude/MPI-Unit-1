@@ -1,9 +1,8 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { MeshGradient } from "@paper-design/shaders-react"
 import { ArrowRight, Sparkles } from "lucide-react"
 
 const letterAnimation = {
@@ -21,61 +20,12 @@ const containerAnimation = {
 export const ShaderHero = () => {
   const title = "MANAJEMEN PENDIDIKAN ISLAM"
   const containerRef = useRef<HTMLDivElement>(null)
-  const [isActive, setIsActive] = useState(false)
-
-  useEffect(() => {
-    const handleMouseEnter = () => setIsActive(true)
-    const handleMouseLeave = () => setIsActive(false)
-
-    const container = containerRef.current
-    if (container) {
-      container.addEventListener("mouseenter", handleMouseEnter)
-      container.addEventListener("mouseleave", handleMouseLeave)
-    }
-    return () => {
-      if (container) {
-        container.removeEventListener("mouseenter", handleMouseEnter)
-        container.removeEventListener("mouseleave", handleMouseLeave)
-      }
-    }
-  }, [])
 
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-black relative overflow-hidden w-full"
+      className="min-h-screen relative overflow-hidden w-full"
     >
-      <svg className="absolute inset-0 w-0 h-0">
-        <defs>
-          <filter id="glass-effect" x="-50%" y="-50%" width="200%" height="200%">
-            <feTurbulence baseFrequency="0.004" numOctaves="1" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.25" />
-            <feColorMatrix
-              type="matrix"
-              values="1 0 0 0 0  
-                      0 1 0 0 0
-                      0 0 1 0 0
-                      0 0 0 0.9 0"
-              result="tint"
-            />
-          </filter>
-        </defs>
-      </svg>
-
-      <MeshGradient
-        className="absolute inset-0 w-full h-full"
-        colors={["#000000", "#1a1a1a", "#2e2e2e", "#ffffff"]}
-        speed={0.25}
-        backgroundColor="#000000"
-      />
-      <MeshGradient
-        className="absolute inset-0 w-full h-full opacity-40"
-        colors={["#000000", "#ffffff", "#2e2e2e"]}
-        speed={0.15}
-        wireframe="true"
-        backgroundColor="transparent"
-      />
-
       <div className="relative z-10 flex flex-col items-center justify-center text-center min-h-screen px-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
