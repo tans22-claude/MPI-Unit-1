@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
  */
 
 const TOTAL_FRAMES = 303;
-const FRAME_PATH = '/images/background/';
+const FRAME_PATH = `${import.meta.env.BASE_URL}images/background/`;
 const TARGET_FPS = 30;
 const FRAME_INTERVAL = 1000 / TARGET_FPS;
 const SCALE = 0.5;
