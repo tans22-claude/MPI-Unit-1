@@ -44,34 +44,45 @@ export default function ClosingMemory() {
       ref={root}
       className="relative z-10 w-full py-40 sm:py-56"
     >
-      <div className="content-left pl-5 sm:pl-8">
-        <p
-          data-closing-line
-          className="mb-3 text-xs font-bold uppercase tracking-[0.32em] text-black"
-        >
-          — Penutup —
-        </p>
+      <div className="px-5 max-w-6xl mx-auto">
+        {/* Split layout */}
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-12">
+          {/* KIRI: line1 */}
+          <div className="w-full sm:w-[45%] text-center sm:text-left">
+            <p
+              data-closing-line
+              className="mb-3 text-xs font-bold uppercase tracking-[0.32em] text-black"
+            >
+              — Penutup —
+            </p>
+            <h2
+              data-closing-line
+              className="font-display text-3xl font-bold leading-tight text-black sm:text-5xl md:text-6xl"
+            >
+              {closingCopy.line1}
+            </h2>
+          </div>
 
-        <h2
-          data-closing-line
-          className="font-display text-3xl font-bold leading-tight text-black sm:text-5xl md:text-6xl"
-        >
-          {closingCopy.line1}
-        </h2>
+          {/* KANAN: line2 */}
+          <div className="w-full sm:w-[45%] text-center sm:text-right">
+            <h2
+              data-closing-line
+              className="font-display text-3xl font-bold italic leading-tight text-black sm:text-5xl md:text-6xl"
+            >
+              {closingCopy.line2}
+            </h2>
+          </div>
+        </div>
 
-        <h2
-          data-closing-line
-          className="mt-8 font-display text-3xl font-bold italic leading-tight text-black sm:text-5xl md:text-6xl"
-        >
-          {closingCopy.line2}
-        </h2>
-
-        <p
-          data-closing-line
-          className="mt-16 font-mono text-xs font-bold uppercase tracking-[0.3em] text-black"
-        >
-          {closingCopy.sign}
-        </p>
+        {/* Class of 2024 — center, besar */}
+        <div className="mt-20 flex justify-center">
+          <p
+            data-closing-line
+            className="font-display text-5xl font-bold uppercase tracking-[0.15em] text-black sm:text-7xl md:text-8xl"
+          >
+            {closingCopy.sign}
+          </p>
+        </div>
       </div>
     </section>
   );
