@@ -73,7 +73,7 @@ export default function App() {
       <Navbar />
 
       {/* Main flow */}
-      <main className="relative z-10">
+      <main className="relative z-10 bg-white/95">
         <Hero />
         <Story />
         <Gallery />
