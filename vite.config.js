@@ -4,7 +4,7 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  base: '/MPI-Unit-1/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
