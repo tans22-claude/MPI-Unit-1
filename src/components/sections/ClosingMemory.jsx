@@ -42,7 +42,7 @@ export default function ClosingMemory() {
     <section
       id="closing"
       ref={root}
-      className="relative z-10 w-full py-40 sm:py-56 bg-white"
+      className="relative z-10 w-full py-40 sm:py-56"
     >
       <div className="px-5 max-w-6xl mx-auto">
         {/* Split layout */}

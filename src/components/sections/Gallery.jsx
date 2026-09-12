@@ -99,7 +99,7 @@ export default function Gallery() {
     <section
       id="gallery"
       ref={root}
-      className="relative z-10 w-full py-24 sm:py-32 bg-white"
+      className="relative z-10 w-full py-24 sm:py-32"
     >
       <div className="content-wide px-5 sm:px-8">
         <div className="mb-8">

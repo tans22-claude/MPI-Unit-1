@@ -57,7 +57,7 @@ export default function ClassOf2024() {
     <section
       id="class-of-2024"
       ref={root}
-      className="relative z-10 w-full py-32 sm:py-40 bg-white"
+      className="relative z-10 w-full py-32 sm:py-40"
     >
       <div
         ref={root}
