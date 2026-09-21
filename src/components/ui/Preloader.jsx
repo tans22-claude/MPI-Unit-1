@@ -5,7 +5,6 @@ export default function Preloader({ onComplete }) {
   const root = useRef(null);
   const [percent, setPercent] = useState(0);
 
-  // Animate 0 → 100 over 2 seconds
   useEffect(() => {
     const obj = { val: 0 };
     const tl = gsap.to(obj, {
@@ -17,7 +16,6 @@ export default function Preloader({ onComplete }) {
     return () => tl.kill();
   }, []);
 
-  // Fade out when done
   useEffect(() => {
     if (percent < 100) return;
     const el = root.current;
@@ -40,26 +38,21 @@ export default function Preloader({ onComplete }) {
   return (
     <div
       ref={root}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-concrete"
     >
-      <div
-        className="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:64px_64px]"
-        aria-hidden="true"
-      />
-
-      <span className="relative z-10 font-mono text-6xl font-bold tracking-tighter text-white sm:text-8xl">
+      <span className="font-display text-[clamp(4rem,12vw,10rem)] font-normal leading-display tracking-tighter text-iron">
         {percent}
-        <span className="text-3xl sm:text-5xl">%</span>
+        <span className="text-[clamp(2rem,5vw,4rem)]">%</span>
       </span>
 
-      <div className="relative z-10 mt-6 h-[2px] w-48 overflow-hidden rounded-full bg-white/10">
+      <div className="mt-6 h-[1px] w-48 bg-iron/20">
         <div
-          className="absolute inset-y-0 left-0 bg-white"
+          className="h-full bg-iron transition-none"
           style={{ width: `${percent}%` }}
         />
       </div>
 
-      <span className="relative z-10 mt-4 text-xs font-medium uppercase tracking-[0.3em] text-white/40">
+      <span className="mt-4 font-display text-[13px] font-normal uppercase tracking-[0.3em] text-iron/40">
         Loading
       </span>
     </div>

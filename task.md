@@ -722,3 +722,139 @@ None - navbar height reduced & brightened successfully
 - Cek: konten tidak menutupi subjek
 - Cek: smooth scrolling 30fps
 - Cek: responsive di mobile
+
+---
+
+## 2026-09-13
+
+### Task
+- Deploy ke Cloudflare Pages
+- Hero: ganti ke dual MeshGradient + glass effect SVG + wireframe
+- Hapus bg-white dari semua section (canvas 303 frame harus terlihat di seluruh halaman)
+- Fix teks hero: putih di atas dark MeshGradient
+
+### Changes
+- **Cloudflare Pages**: Project `mpi-unit-1` deployed via GitHub integration
+  - Build: `npm run build`, Output: `dist`
+  - Auto-deploy dari branch `main`
+- **Updated**: `src/components/ui/shader-hero.tsx`
+  - Dual MeshGradient: normal layer + wireframe layer (opacity-0.4)
+  - SVG glass-effect filter (feTurbulence + feDisplacementMap + feColorMatrix)
+  - Mouse interaction (isActive state via mouseenter/mouseleave)
+  - Teks putih bold di atas dark gradient
+  - Badge "UNIT 1" + title "MANAJEMEN PENDIDIKAN ISLAM" + subtitle + button
+- **Removed**: `bg-white` dari 7 section components
+  - ClassOf2024, Suka, Gallery, Story, Duka, Members, ClosingMemory
+  - Canvas 303 frame sekarang terlihat sebagai background seluruh halaman
+- **ImageSequenceBackground**: Canvas dengan white background (`#FFFFFF`)
+  - 303 frames JPG di `public/images/background/`
+  - Scroll-driven animation, 30fps cap
+  - Pointer-events: none
+- **Dependencies**: `@paper-design/shaders-react`, `framer-motion`, `lucide-react`
+
+### Result
+- ✅ Cloudflare Pages live di `mpi-unit-1.pages.dev`
+- ✅ Hero: dual MeshGradient (dark) + glass effect + wireframe
+- ✅ Canvas 303 frame visible di seluruh halaman (tanpa bg-white)
+- ✅ Teks putih bold terbaca di atas dark gradient
+- ✅ Auto-deploy dari GitHub push
+
+### Known Issue
+- Canvas 303 frame tidak terlihat di hero karena MeshGradient menutupinya (expected — hero pakai MeshGradient sebagai background sendiri)
+- Canvas terlihat di section-section lain setelah hero
+
+### Next
+- Adjust MeshGradient opacity/colors jika perlu
+- Replace placeholder images dengan foto asli
+- Test responsive di mobile
+
+---
+
+## 2026-09-21
+
+### Task
+- Full redesign MPI ke The1 style reference
+- Typography-driven architecture: Barlow Condensed, crushed line-height, negative tracking
+- Concrete canvas (#d9d9d9) + 4 paint block sections
+- Hapus ImageSequenceBackground (303 frame), MeshGradient, Navbar terpisah
+
+### The1 Style Adaptation
+| Element | The1 (Original) | MPI (Adapted) |
+|---------|-----------------|---------------|
+| Background | #d9d9d9 concrete | #d9d9d9 concrete |
+| Text | #1f1f1f iron | #1f1f1f iron |
+| Display font | KH Teka 215px | Barlow Condensed (clamp 3rem–13rem) |
+| Line height | 0.70 | 0.72 |
+| Letter spacing | -0.06em | -0.06em (tracking-tighter) |
+| Green block | The Green (property) | Class of 2024 |
+| Pink block | The Pink (property) | Gallery |
+| Yellow block | The Yellow (property) | Suka |
+| Red block | The Red (property) | Duka |
+| Iron surface | Dark interactive | Closing + Footer |
+| Pill buttons | 100px radius, #1f1f1f | Same |
+| Hamburger | 48px circle, #1f1f1f | Same, integrated in hero |
+| Dividers | 1px solid #1f1f1f | Same (.section-divider) |
+
+### Changes
+- **Updated**: `index.html` — Barlow Condensed font, theme-color #d9d9d9
+- **Updated**: `tailwind.config.js` — The1 colors (the-green, the-pink, the-red, the-yellow, concrete, iron, carbon), Barlow Condensed font family, spacing scale
+- **Updated**: `src/index.css` — The1 CSS variables, concrete background, iron text, section-divider utility
+- **Rewritten**: `src/components/ui/shader-hero.tsx` — The1 hero
+  - Massive display type "MANAJEMEN PENDIDIKAN ISLAM" (clamp 3rem–13rem)
+  - Concrete canvas background, no MeshGradient
+  - Wordmark "MPI." top-left + hamburger circle 48px top-right
+  - Full-screen red menu overlay with nav links
+  - Pill button "Lihat Galeri"
+  - Framer Motion letter-by-letter animation
+- **Rewritten**: `src/components/sections/Story.jsx` — concrete canvas, split layout
+- **Rewritten**: `src/components/sections/Gallery.jsx` — pink (#f19ec8) paint block
+- **Rewritten**: `src/components/sections/ClassOf2024.jsx` — green (#027b49) paint block
+- **Rewritten**: `src/components/sections/Suka.jsx` — yellow (#fbb833) paint block
+- **Rewritten**: `src/components/sections/Duka.jsx` — red (#fa4d43) paint block
+- **Rewritten**: `src/components/sections/Members.jsx` — concrete canvas, border-top dividers
+- **Rewritten**: `src/components/sections/ClosingMemory.jsx` — iron (#1f1f1f) inverted surface
+- **Rewritten**: `src/components/layout/Footer.jsx` — iron surface, minimal 3-column
+- **Rewritten**: `src/components/ui/Preloader.jsx` — concrete bg, iron text, Barlow Condensed
+- **Updated**: `src/App.jsx` — removed ImageSequenceBackground, removed Navbar (integrated in hero)
+- **Deleted**: `src/components/motion/ImageSequenceBackground.jsx`
+- **Deleted**: `src/hooks/useAvoidSubject.js`
+- **Kept**: Navbar.jsx (unused but not deleted to avoid breaking anything)
+
+### Section → Color Map
+| Section | Background | Text |
+|---------|------------|------|
+| Hero | Concrete #d9d9d9 | Iron #1f1f1f |
+| Story | Concrete #d9d9d9 | Iron #1f1f1f |
+| Gallery | Pink #f19ec8 | Iron #1f1f1f |
+| Class of 2024 | Green #027b49 | Iron #1f1f1f |
+| Suka | Yellow #fbb833 | Iron #1f1f1f |
+| Duka | Red #fa4d43 | Iron #1f1f1f |
+| Members | Concrete #d9d9d9 | Iron #1f1f1f |
+| Closing | Iron #1f1f1f | Concrete #d9d9d9 (inverted) |
+| Footer | Iron #1f1f1f | Concrete #d9d9d9 (inverted) |
+
+### Result
+- ✅ Build successful: 27.71s, 363.84 kB (gzip: 118.66 kB)
+- ✅ The1 style: concrete canvas, massive type, 4 paint blocks
+- ✅ Barlow Condensed display font (KH Teka substitute)
+- ✅ Crushed line-height (0.72), negative tracking (-0.06em)
+- ✅ Full-bleed color sections, no shadows/gradients/elevation
+- ✅ Pill buttons (100px radius, iron fill)
+- ✅ Hamburger menu (48px circle, red overlay)
+- ✅ Hairline dividers between sections
+- ✅ ImageSequenceBackground removed
+- ✅ MeshGradient removed
+- ✅ No hero image — pure typography
+
+### Dependencies (unchanged)
+- `framer-motion` — hero animations, menu overlay
+- `gsap` + ScrollTrigger — section scroll animations
+- `lenis` — smooth scroll
+- `lucide-react` — ArrowRight icon
+- `@paper-design/shaders-react` — still in package.json but unused
+
+### Yang tersisa
+- [ ] Replace placeholder images (gallery, members) dengan foto asli
+- [ ] Test responsive di mobile
+- [ ] Hapus file tidak terpakai: Navbar.jsx, hero-carousel.tsx, badge.tsx, input.tsx, coming-soon-4.tsx, Photo.jsx
+- [ ] Update memories.js copy jika perlu

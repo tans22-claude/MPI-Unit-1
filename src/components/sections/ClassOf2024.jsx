@@ -1,106 +1,78 @@
-﻿import { useEffect, useRef } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { classOf2024Copy } from '../../data/memories';
+import FrameSequenceCanvas from '../motion/FrameSequenceCanvas';
+import TimelineOverlay from '../motion/TimelineOverlay';
+
 gsap.registerPlugin(ScrollTrigger);
 
+const TOTAL_FRAMES = 303;
+
 export default function ClassOf2024() {
-  const root = useRef(null);
+  const sectionRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const el = root.current;
-    if (!el) return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const section = sectionRef.current;
+    if (!section) return;
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse',
-        },
-      });
+    // Wait for first frame to load before enabling ScrollTrigger
+    const img = new Image();
+    img.onload = () => setIsReady(true);
+    img.onerror = () => setIsReady(true);
+    img.src = `${import.meta.env.BASE_URL}images/fotostack/00001.jpg`;
 
-      if (reduce) {
-        gsap.set(el.querySelectorAll('[data-class-anim]'), { opacity: 1, y: 0 });
-        return;
-      }
-
-      tl.fromTo(
-        el.querySelector('[data-class-pre]'),
-        { opacity: 0, y: 20, letterSpacing: '0.5em' },
-        { opacity: 1, y: 0, letterSpacing: '0.32em', duration: 0.9, ease: 'power3.out' },
-      )
-        .fromTo(
-          el.querySelector('[data-class-year]'),
-          { opacity: 0, scale: 0.85 },
-          { opacity: 1, scale: 1, duration: 1.2, ease: 'power3.out' },
-          '-=0.5',
-        )
-        .fromTo(
-          el.querySelectorAll('[data-class-line]'),
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.9, stagger: 0.1, ease: 'power3.out' },
-          '-=0.6',
-        )
-        .fromTo(
-          el.querySelector('[data-class-desc]'),
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.9 },
-          '-=0.4',
-        );
-    }, el);
-    return () => ctx.revert();
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
   }, []);
+
+  useEffect(() => {
+    if (!isReady) return;
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const trigger = ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.3,
+      onUpdate: (self) => {
+        setProgress(self.progress);
+      },
+    });
+
+    return () => trigger.kill();
+  }, [isReady]);
 
   return (
     <section
       id="class-of-2024"
-      ref={root}
-      className="relative z-10 w-full py-32 sm:py-40"
+      ref={sectionRef}
+      className="relative"
+      style={{ height: '350vh' }}
     >
-      <div
-        ref={root}
-        className="content-right pr-5 sm:pr-8"
-      >
-        <p
-          data-class-anim
-          data-class-pre
-          className="mb-6 text-xs font-bold uppercase tracking-[0.5em] text-black"
-        >
-          {classOf2024Copy.preLabel}
-        </p>
-
-        <h2
-          data-class-anim
-          data-class-year
-          className="font-display text-[clamp(4rem,12vw,9rem)] font-bold leading-none tracking-tightest text-black"
-        >
-          {classOf2024Copy.year}
-        </h2>
-
-        <div className="mt-10 space-y-2 font-display text-2xl font-bold italic text-black sm:text-3xl">
-          <p data-class-anim data-class-line>{classOf2024Copy.line1}</p>
-          <p data-class-anim data-class-line>{classOf2024Copy.line2}</p>
-          <p data-class-anim data-class-line>{classOf2024Copy.line3}</p>
+      {/* Sticky container */}
+      <div className="sticky top-0 w-full h-screen overflow-hidden">
+        {/* Canvas background */}
+        <div className="absolute inset-0 bg-concrete">
+          <FrameSequenceCanvas progress={progress} />
         </div>
 
-        <p
-          data-class-anim
-          data-class-desc
-          className="mt-10 max-w-md text-base leading-relaxed text-black"
-        >
-          {classOf2024Copy.description}
-        </p>
+        {/* Gradient overlay — left darken for timeline readability */}
+        <div
+          className="absolute inset-0 z-[1]"
+          style={{
+            background: 'linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.20) 20%, rgba(0,0,0,0.05) 45%, rgba(0,0,0,0.05) 100%)',
+          }}
+        />
 
-        {classOf2024Copy.memberCount && (
-          <p
-            data-class-anim
-            className="mt-8 font-mono text-xs font-bold uppercase tracking-[0.25em] text-black"
-          >
-            {classOf2024Copy.memberCount} members · 1 angkatan
-          </p>
-        )}
+        {/* Timeline overlay */}
+        <div className="relative z-10 h-full">
+          <TimelineOverlay progress={progress} />
+        </div>
       </div>
     </section>
   );

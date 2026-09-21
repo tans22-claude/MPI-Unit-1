@@ -2,6 +2,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { closingCopy } from '../../data/memories';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ClosingMemory() {
@@ -13,20 +14,20 @@ export default function ClosingMemory() {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const ctx = gsap.context(() => {
-      const lines = el.querySelectorAll('[data-closing-line]');
+      const lines = el.querySelectorAll('[data-anim]');
       if (reduce) {
         gsap.set(lines, { opacity: 1, y: 0 });
         return;
       }
       gsap.fromTo(
         lines,
-        { opacity: 0, y: 50 },
+        { opacity: 0, y: 40 },
         {
           opacity: 1,
           y: 0,
-          duration: 1.4,
+          duration: 1.2,
           ease: 'power3.out',
-          stagger: 0.2,
+          stagger: 0.15,
           scrollTrigger: {
             trigger: el,
             start: 'top 70%',
@@ -39,47 +40,34 @@ export default function ClosingMemory() {
   }, []);
 
   return (
-    <section
-      id="closing"
-      ref={root}
-      className="relative z-10 w-full py-40 sm:py-56"
-    >
-      <div className="px-5 max-w-6xl mx-auto">
-        {/* Split layout */}
+    <section id="closing" ref={root} className="relative w-full bg-iron">
+      <div className="section-divider bg-concrete/20" />
+      <div className="max-w-site mx-auto px-5 sm:px-8 py-30 sm:py-50">
         <div className="flex flex-col sm:flex-row justify-between items-start gap-12">
-          {/* KIRI: line1 */}
-          <div className="w-full sm:w-[45%] text-center sm:text-left">
-            <p
-              data-closing-line
-              className="mb-3 text-xs font-bold uppercase tracking-[0.32em] text-black"
-            >
+          <div className="w-full sm:w-[45%]">
+            <p data-anim className="font-display text-[13px] font-normal uppercase tracking-[0.32em] text-concrete/50 mb-6">
               — Penutup —
             </p>
             <h2
-              data-closing-line
-              className="font-display text-3xl font-bold leading-tight text-black sm:text-5xl md:text-6xl"
+              data-anim
+              className="font-display text-[clamp(2rem,5vw,4rem)] font-normal leading-subheading tracking-tight text-concrete"
             >
               {closingCopy.line1}
             </h2>
           </div>
 
-          {/* KANAN: line2 */}
-          <div className="w-full sm:w-[45%] text-center sm:text-right">
+          <div className="w-full sm:w-[45%] sm:text-right">
             <h2
-              data-closing-line
-              className="font-display text-3xl font-bold italic leading-tight text-black sm:text-5xl md:text-6xl"
+              data-anim
+              className="font-display text-[clamp(2rem,5vw,4rem)] font-normal leading-subheading tracking-tight text-concrete"
             >
               {closingCopy.line2}
             </h2>
           </div>
         </div>
 
-        {/* Class of 2024 — center, besar */}
-        <div className="mt-20 flex justify-center">
-          <p
-            data-closing-line
-            className="font-display text-5xl font-bold uppercase tracking-[0.15em] text-black sm:text-7xl md:text-8xl"
-          >
+        <div data-anim className="mt-20 sm:mt-30 text-center">
+          <p className="font-display text-[clamp(3rem,8vw,8rem)] font-normal leading-display tracking-tighter text-concrete uppercase">
             {closingCopy.sign}
           </p>
         </div>

@@ -3,7 +3,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 
-import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 
 import Hero from './components/sections/Hero';
@@ -15,7 +14,6 @@ import Duka from './components/sections/Duka';
 import Members from './components/sections/Members';
 import ClosingMemory from './components/sections/ClosingMemory';
 
-import ImageSequenceBackground from './components/motion/ImageSequenceBackground';
 import Preloader from './components/ui/Preloader';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -27,7 +25,6 @@ export default function App() {
     setLoading(false);
   }, []);
 
-  // Lenis Smooth Scroll
   useEffect(() => {
     if (loading) return;
 
@@ -63,16 +60,8 @@ export default function App() {
 
   return (
     <>
-      {/* Preloader */}
       {loading && <Preloader onComplete={handleLoaded} />}
 
-      {/* Image sequence background */}
-      <ImageSequenceBackground />
-
-      {/* Top nav */}
-      <Navbar />
-
-      {/* Main flow */}
       <main className="relative z-10">
         <Hero />
         <Story />
