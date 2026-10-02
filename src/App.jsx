@@ -5,7 +5,7 @@ import Lenis from 'lenis';
 
 import Footer from './components/layout/Footer';
 
-import Hero from './components/sections/Hero';
+import Portal from './components/sections/Portal';
 import Story from './components/sections/Story';
 import Gallery from './components/sections/Gallery';
 import ClassOf2024 from './components/sections/ClassOf2024';
@@ -63,7 +63,7 @@ export default function App() {
       {loading && <Preloader onComplete={handleLoaded} />}
 
       <main className="relative z-10">
-        <Hero />
+        <Portal />
         <Story />
         <Gallery />
         <ClassOf2024 />
