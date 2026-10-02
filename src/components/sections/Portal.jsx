@@ -115,12 +115,18 @@ export default function Portal() {
         </>
       }
     >
-      <div className="max-w-3xl">
-        <h1 className="font-display text-[clamp(2.5rem,7vw,6rem)] font-normal uppercase leading-[0.72] tracking-tighter text-concrete">
+      <div className="max-w-4xl">
+        <p className="mb-4 font-display text-[15px] tracking-tight text-concrete/70 sm:mb-6 sm:text-[18px]">
           {heroCopy.title}
+        </p>
+
+        <h1 className="font-display text-[clamp(3rem,10vw,9rem)] font-normal uppercase leading-[0.72] tracking-tighter text-concrete">
+          <span className="block">Manajemen</span>
+          <span className="block">Pendidikan</span>
+          <span className="block">Islam</span>
         </h1>
 
-        <p className="mt-6 max-w-xl font-display text-[15px] tracking-tight text-concrete/70 sm:mt-8 sm:text-[18px]">
+        <p className="mt-6 max-w-md font-display text-[15px] tracking-tight text-concrete/70 sm:mt-8 sm:text-[18px]">
           {heroCopy.subtitle}
         </p>
 
